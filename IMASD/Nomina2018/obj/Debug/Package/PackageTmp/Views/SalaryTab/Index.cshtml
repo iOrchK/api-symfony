@@ -1,0 +1,82 @@
+﻿@using Nomina2018.Models;
+@model IEnumerable<Nomina2018.Models.Tabulador>
+
+@{
+    ViewBag.Title = "Tabulador General";
+    List<Departamento> departamentos = ViewBag.ListaDepartamentos;
+    List<Empleado> empleados = ViewBag.ListaEmpleados;
+}
+
+<h2 class="uk-margin-top">Tabulador General</h2>
+
+<form asp-action="Index" method="get" uk-grid>
+    <div class="uk-width-1-5">
+        @Html.ActionLink("Crear Nuevo", "Create", "SalaryTab", null, new { @class = "uk-button uk-button-primary" })
+    </div>
+    <div class="uk-width-1-5"></div>
+    <div class="uk-width-1-5 uk-text-right">
+        @Html.DropDownList("pEmp", empleados.Select(x => new SelectListItem { Text = x.GetFullName(), Value = x.idEmpleado.ToString(), Selected = x.idEmpleado == @ViewBag.FiltroEmp }), new { @class = "uk-input" })
+    </div>
+    <div class="uk-width-1-5">
+        @Html.DropDownList("pDepto", departamentos.Select(x => new SelectListItem { Text = x.nombre, Value = x.idDepto.ToString(), Selected = x.idDepto == @ViewBag.FiltroDepto }), new { @class = "uk-input" })
+    </div>
+    <div class="uk-width-1-5">
+        <input type="submit" value="Buscar" class="uk-button uk-button-default uk-width-1-1" />
+    </div>
+</form>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>
+                Empleado
+            </th>
+            <th>
+                Periodo
+            </th>
+            <th>
+                Percepción Bruta
+            </th>
+            <th>
+                Pago realizado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model.Count() == 0)
+    {
+        <tr><td colspan="5"> <i class="glyphicon glyphicon-info-sign"></i> Lista vacía</td></tr>
+    }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Empleado.GetFullName()
+            </td>
+            <td>
+                @item.inicioPeriodo.Value.ToString("dd MMM yyyy") -
+                @item.finPeriodo.Value.ToString("dd MMM yyyy")
+            </td>
+            <td>
+                $ @Html.DisplayFor(modelItem => item.percepcion)
+            </td>
+            <td>
+                @{
+                    if (@item.pagado == 0)
+                    {
+                        <span class="uk-text-danger"> No </span>
+                    }
+                    else
+                    {
+                        <span class="uk-text-success"> Sí </span>
+                    }
+                }
+            </td>
+            <td class="uk-text-right">
+                @Html.ActionLink("Editar", "Edit", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-pencil" })
+                | @Html.ActionLink("Detalle", "Details", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-exclamation-sign" })
+                | @Html.ActionLink("Eliminar", "Delete", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-trash" })
+            </td>
+        </tr>
+    }
+
+</table>

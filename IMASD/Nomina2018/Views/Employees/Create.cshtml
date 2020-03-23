@@ -1,0 +1,85 @@
+﻿@using Nomina2018.Models
+@model Nomina2018.Models.Empleado
+
+@{
+    ViewBag.Title = "Empleado - Crear";
+    List<Departamento> departamentos = ViewBag.Departamentos;
+}
+
+<h2 class="uk-margin-top">Crear</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="uk-form-horizontal">
+    <h4>Empleado</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "uk-text-danger" })
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Código:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.codigo, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.codigo, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Nombre:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Apellidos:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.apellidos, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.apellidos, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Dirección:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.direccion, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Teléfono:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.telefono, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Sueldo base:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.sueldo, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.sueldo, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Departamento:</label>
+        <div class="uk-form-controls">
+            @Html.DropDownListFor(model => model.idDepartamento, departamentos.Select(x => new SelectListItem { Text = x.nombre, Value = x.idDepto.ToString(), Selected = x.idDepto == departamentos.Select(y => y.idDepto).FirstOrDefault() }), new { @class = "uk-select" })
+            @Html.ValidationMessageFor(model => model.idDepartamento, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text"> </label>
+        &nbsp;&nbsp;&nbsp; <input type="submit" value="Crear" class="uk-button uk-button-primary" />
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "Index", "Employees", null, new { @class = "uk-button uk-button-default" })
+</div>

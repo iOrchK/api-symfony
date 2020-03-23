@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Nomina2018.Models.Departamento>
+
+@{
+    ViewBag.Title = "Departamentos";
+}
+
+<h2 class="uk-margin-top">Departamentos</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create", "Departments", null, new { @class = "uk-button uk-button-primary" })
+</p>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if(Model.Count() == 0) {
+        <tr><td colspan="3">Lista vacía</td></tr>
+    }else{
+    }
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.descripcion)
+            </td>
+            <td class="uk-text-right">
+                @Html.ActionLink("Editar", "Edit", "Departments", new { id=item.idDepto }, new { @class = "glyphicon glyphicon-pencil" }) 
+                | @Html.ActionLink("Detalle", "Details", "Departments", new { id=item.idDepto }, new { @class = "glyphicon glyphicon-exclamation-sign" }) 
+                | @Html.ActionLink("Eliminar", "Delete", "Departments", new { id=item.idDepto }, new { @class = "glyphicon glyphicon-trash" })
+            </td>
+        </tr>
+    }
+
+</table>

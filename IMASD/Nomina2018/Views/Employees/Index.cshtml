@@ -1,0 +1,78 @@
+﻿@using Nomina2018.Models;
+@model List<Nomina2018.Models.Empleado>
+
+@{
+    ViewBag.Title = "Empleados";
+    List<Departamento> departamentos = ViewBag.ListaDepartamentos;
+}
+
+<h2 class="uk-margin-top">Empleados</h2>
+
+
+<form asp-action="Index" method="get" uk-grid>
+    <div class="uk-width-1-5">
+        @Html.ActionLink("Crear Nuevo", "Create", "Employees", null, new { @class = "uk-button uk-button-primary" })
+    </div>
+    <div class="uk-width-1-5"></div>
+    <div class="uk-width-2-5">
+        @Html.DropDownList("pDepto", departamentos.Select(x => new SelectListItem { Text = x.nombre, Value = x.idDepto.ToString(), Selected = x.idDepto == @ViewBag.Filtro }), new { @class = "uk-input" })
+    </div>
+    <div class="uk-width-1-5">
+        <input type="submit" value="Buscar" class="uk-button uk-button-default uk-width-1-1" />
+    </div>
+</form>
+<table class="uk-table uk-table-striped">
+    <thead>
+        <tr>
+            <th>
+                #Código
+            </th>
+            <th>
+                Nombre Completo
+            </th>
+            <th>
+                Contacto
+            </th>
+            <th>
+                Sueldo base
+            </th>
+            <th>
+                Departamento
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @if (Model.Count() == 0)
+    {
+        <tr><td colspan="6"> <i class="glyphicon glyphicon-info-sign"></i> Lista vacía</td></tr>
+    }
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre) @Html.DisplayFor(modelItem => item.apellidos)
+            </td>
+            <td>
+                <span class="glyphicon glyphicon-home"></span> @Html.DisplayFor(modelItem => item.direccion) <br />
+                <span class="glyphicon glyphicon-phone"></span> @Html.DisplayFor(modelItem => item.telefono)
+            </td>
+            <td>
+                $ @Html.DisplayFor(modelItem => item.sueldo)
+            </td>
+            <td>
+                @item.Departamento.nombre
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", "Employees", new { id = item.idEmpleado }, new { @class = "glyphicon glyphicon-pencil" })
+                | @Html.ActionLink("Detalle", "Details", "Employees", new { id = item.idEmpleado }, new { @class = "glyphicon glyphicon-exclamation-sign" })
+                | @Html.ActionLink("Eliminar", "Delete", "Employees", new { id = item.idEmpleado }, new { @class = "glyphicon glyphicon-trash" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,45 @@
+﻿@model Nomina2018.Models.Departamento
+
+@{
+    ViewBag.Title = "Departamento - Editar";
+}
+
+<h2 class="uk-margin-top">Editar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="uk-form-horizontal">
+    <h4>Departamento</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "uk-text-danger" })
+    @Html.HiddenFor(model => model.idDepto)
+
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Nombre:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text">Descripción:</label>
+        <div class="uk-form-controls">
+            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "uk-input" } })
+            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "uk-text-danger" })
+        </div>
+    </div>
+
+    <div class="uk-margin">
+        <label class="uk-form-label" for="form-horizontal-text"> </label>
+        &nbsp;&nbsp;&nbsp; <input type="submit" value="Guardar" class="uk-button uk-button-primary" />
+    </div>
+</div>
+}
+
+<div class="uk-margin">
+    @Html.ActionLink("Regresar a la lista", "Index", "Departments", null, new { @class = "uk-button uk-button-default" })
+</div>

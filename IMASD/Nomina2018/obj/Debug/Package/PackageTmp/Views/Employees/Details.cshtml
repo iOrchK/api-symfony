@@ -1,0 +1,132 @@
+﻿@using Nomina2018.Models;
+@model Nomina2018.Models.Empleado
+@{ List<Tabulador> tabulador = ViewBag.TabuladorEmpleado; }
+
+@{
+    ViewBag.Title = "Empleado - Detalle";
+}
+
+<h2 class="uk-margin-top">Detalle</h2>
+
+<div>
+    <h4>Empleado</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Código:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.codigo)
+        </dd>
+
+        <dt>
+            Nombre:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            Apellidos:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apellidos)
+        </dd>
+
+        <dt>
+            Dirección:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direccion)
+        </dd>
+
+        <dt>
+            Teléfono:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefono)
+        </dd>
+
+        <dt>
+            Sueldo base:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.sueldo)
+        </dd>
+
+        <dt>
+            Departamento:
+        </dt>
+
+        <dd>
+            @Model.Departamento.nombre
+        </dd>
+        <dt></dt>
+        <dd>
+            @Html.ActionLink("Editar", "Edit", "Employees", new { id = Model.idEmpleado }, new { @class = "uk-button uk-button-primary" })
+        </dd>
+
+    </dl>
+
+    @*<button class="uk-button uk-button-primary uk-align-right">Capturar a tabulador</button>*@
+    @Html.ActionLink("Capturar a tabulador", "Create", "SalaryTab", null, new { @class = "uk-button uk-button-primary uk-align-right" })
+    <table class="uk-table uk-table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Periodo
+                </th>
+                <th>
+                    Percepción Bruta
+                </th>
+                <th>
+                    Pago realizado
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (tabulador.Count() == 0)
+        {
+            <tr><td colspan="4"> <i class="glyphicon glyphicon-info-sign"></i> Lista vacía</td></tr>
+        }
+        @foreach (var item in tabulador)
+        {
+            <tr>
+                <td>
+                    @item.inicioPeriodo.Value.ToString("dd MMM yyyy") -
+                    @item.finPeriodo.Value.ToString("dd MMM yyyy")
+                </td>
+                <td>
+                    $ @Html.DisplayFor(modelItem => item.percepcion)
+                </td>
+                <td>
+                    @{
+                        if (@item.pagado == 0)
+                        {
+                            <span class="uk-text-danger"> No </span>
+                        }
+                        else
+                        {
+                            <span class="uk-text-success"> Sí </span>
+                        }
+                    }
+                </td>
+                <td class="uk-text-right">
+                    @Html.ActionLink("Editar", "Edit", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-pencil" })
+                    | @Html.ActionLink("Detalle", "Details", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-exclamation-sign" })
+                    @*| @Html.ActionLink("Eliminar", "Delete", "SalaryTab", new { id = item.idTabulador }, new { @class = "glyphicon glyphicon-trash" })*@
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Regresar a la lista", "Index", "Employees", null, new { @class = "uk-button uk-button-default" })
+</p>

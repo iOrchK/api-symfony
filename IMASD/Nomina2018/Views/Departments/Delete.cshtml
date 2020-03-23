@@ -1,0 +1,40 @@
+﻿@model Nomina2018.Models.Departamento
+
+@{
+    ViewBag.Title = "Departamento - Eliminar";
+}
+
+<h2 class="uk-margin-top">Eliminar</h2>
+
+<h3>¿Está seguro que desea elimiarlo?</h3>
+<div>
+    <h4>Departamento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            Descripción
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="uk-button uk-button-primary" />
+            @Html.ActionLink("Regresar a la lista", "Index", "Departments", null, new { @class = "uk-button uk-button-default" })
+        </div>
+    }
+</div>

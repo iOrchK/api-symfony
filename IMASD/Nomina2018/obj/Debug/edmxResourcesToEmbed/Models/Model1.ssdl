@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Departamento">
+    <Key>
+      <PropertyRef Name="idDepto" />
+    </Key>
+    <Property Name="idDepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="descripcion" Type="nchar" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="idEmpleado" />
+    </Key>
+    <Property Name="idEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="codigo" Type="varchar" MaxLength="8" />
+    <Property Name="nombre" Type="varchar" MaxLength="32" />
+    <Property Name="apellidos" Type="varchar" MaxLength="32" />
+    <Property Name="direccion" Type="varchar" MaxLength="128" />
+    <Property Name="telefono" Type="varchar" MaxLength="16" />
+    <Property Name="sueldo" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="idDepartamento" Type="int" Nullable="false" />
+    <Property Name="eliminado" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tabulador">
+    <Key>
+      <PropertyRef Name="idTabulador" />
+    </Key>
+    <Property Name="idTabulador" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idEmpleado" Type="int" Nullable="false" />
+    <Property Name="inicioPeriodo" Type="date" />
+    <Property Name="finPeriodo" Type="date" />
+    <Property Name="sueldo" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="compensacion" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="descuento" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="percepcion" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="pagado" Type="tinyint" />
+  </EntityType>
+  <Association Name="FK_Empleado_Departamento1">
+    <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departamento">
+        <PropertyRef Name="idDepto" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="idDepartamento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tabulador_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Tabulador" Type="Self.Tabulador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="idEmpleado" />
+      </Principal>
+      <Dependent Role="Tabulador">
+        <PropertyRef Name="idEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tabulador" EntityType="Self.Tabulador" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Empleado_Departamento1" Association="Self.FK_Empleado_Departamento1">
+      <End Role="Departamento" EntitySet="Departamento" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tabulador_Empleado" Association="Self.FK_Tabulador_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Tabulador" EntitySet="Tabulador" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

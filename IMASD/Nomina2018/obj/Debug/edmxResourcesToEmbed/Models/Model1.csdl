@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Departamento">
+    <Key>
+      <PropertyRef Name="idDepto" />
+    </Key>
+    <Property Name="idDepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="512" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Empleado" Relationship="Model.FK_Empleado_Departamento1" FromRole="Departamento" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="idEmpleado" />
+    </Key>
+    <Property Name="idEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codigo" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="nombre" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="apellidos" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <Property Name="direccion" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+    <Property Name="telefono" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+    <Property Name="sueldo" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="idDepartamento" Type="Int32" Nullable="false" />
+    <Property Name="eliminado" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Departamento" Relationship="Model.FK_Empleado_Departamento1" FromRole="Empleado" ToRole="Departamento" />
+    <NavigationProperty Name="Tabulador" Relationship="Model.FK_Tabulador_Empleado" FromRole="Empleado" ToRole="Tabulador" />
+  </EntityType>
+  <EntityType Name="Tabulador">
+    <Key>
+      <PropertyRef Name="idTabulador" />
+    </Key>
+    <Property Name="idTabulador" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+    <Property Name="inicioPeriodo" Type="DateTime" Precision="0" />
+    <Property Name="finPeriodo" Type="DateTime" Precision="0" />
+    <Property Name="sueldo" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="compensacion" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="descuento" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="percepcion" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="pagado" Type="Byte" />
+    <NavigationProperty Name="Empleado" Relationship="Model.FK_Tabulador_Empleado" FromRole="Tabulador" ToRole="Empleado" />
+  </EntityType>
+  <EntityContainer Name="Database" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departamento" EntityType="Self.Departamento" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="Tabulador" EntityType="Self.Tabulador" />
+    <AssociationSet Name="FK_Empleado_Departamento1" Association="Model.FK_Empleado_Departamento1">
+      <End Role="Departamento" EntitySet="Departamento" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tabulador_Empleado" Association="Model.FK_Tabulador_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Tabulador" EntitySet="Tabulador" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Empleado_Departamento1">
+    <End Type="Model.Departamento" Role="Departamento" Multiplicity="1" />
+    <End Type="Model.Empleado" Role="Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departamento">
+        <PropertyRef Name="idDepto" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="idDepartamento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tabulador_Empleado">
+    <End Type="Model.Empleado" Role="Empleado" Multiplicity="1" />
+    <End Type="Model.Tabulador" Role="Tabulador" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="idEmpleado" />
+      </Principal>
+      <Dependent Role="Tabulador">
+        <PropertyRef Name="idEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

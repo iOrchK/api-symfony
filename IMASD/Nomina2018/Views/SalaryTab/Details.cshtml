@@ -1,0 +1,89 @@
+﻿@model Nomina2018.Models.Tabulador
+
+@{
+    ViewBag.Title = "Tabulador - Detalle";
+}
+
+<h2 class="uk-margin-top">Detalle</h2>
+
+<div>
+    <h4>Tabulador</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Empleado
+        </dt>
+
+        <dd>
+            @Model.Empleado.GetFullName()
+        </dd>
+
+        <dt>
+            Inicio del periodo
+        </dt>
+
+        <dd>
+            @Model.inicioPeriodo.Value.ToString("dd MMM yyyy")
+        </dd>
+
+        <dt>
+            Fin del periodo
+        </dt>
+
+        <dd>
+            @Model.finPeriodo.Value.ToString("dd MMM yyyy")
+        </dd>
+
+        <dt>
+            Sueldo base
+        </dt>
+
+        <dd>
+            $ @Html.DisplayFor(model => model.sueldo)
+        </dd>
+
+        <dt>
+            Compensación
+        </dt>
+
+        <dd>
+            $ @Html.DisplayFor(model => model.compensacion)
+        </dd>
+
+        <dt>
+            Descuento:
+        </dt>
+
+        <dd>
+            $ @Html.DisplayFor(model => model.descuento)
+        </dd>
+
+        <dt>
+            Percepción bruta:
+        </dt>
+
+        <dd>
+            $ @Html.DisplayFor(model => model.percepcion)
+        </dd>
+
+        <dt>
+            Pago realizado:
+        </dt>
+
+        <dd>
+            @if (Model.pagado == 1)
+            {
+                <span>Sí</span>
+            }
+            else
+            {
+                <span>No</span>
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", "SalaryTab", new { id = Model.idTabulador }, new { @class = "uk-button uk-button-primary" })
+    @Html.ActionLink("Regresar a la lista", "Index", "SalaryTab", null, new { @class = "uk-button uk-button-default" })
+</p>
